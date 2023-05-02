@@ -4,7 +4,7 @@ function count_project_number_of_tasks( $tasks, $project ) {
     $count_of_tasks = 0;
 
     foreach( $tasks as $task ) {
-        if ( $task['category'] === $project ) {
+        if ( $task['project'] === $project ) {
             $count_of_tasks++;
         }
     }
@@ -22,10 +22,11 @@ function is_urgency_task( $deadline ) {
     $deadline_date = date_create( $deadline );
 
     $diff = date_diff( $cur_date, $deadline_date );
-    $hours_count = date_interval_format( $diff, "%r%d" );
+    $days_count = date_interval_format( $diff, "%r%d" );
+    $hours_count = date_interval_format( $diff, "%r%h" );
 
-    if ( $hours_count <= 24 ) {
-        return true;
+    if ( $days_count <= 0 && $hours_count <= 24 ) {
+      return true;
     } else {
         return false;
     }

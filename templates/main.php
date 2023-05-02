@@ -41,16 +41,16 @@
 
     <table class="tasks">
         <?php foreach( $tasks as $task ) : ?>
-            <?php if ( $show_complete_tasks === 0 && $task['is_done'] ) : continue; ?>
+            <?php if ( $show_complete_tasks === 0 && $task['status'] ) : continue; ?>
             <?php else : ?>
-                <tr class="tasks__item task <?php echo $task['is_done'] ? 'task--completed' : ''; ?> <?php echo is_urgency_task( $task['deadline'] ) ? 'task--important' : ''; ?>">
+                <tr class="tasks__item task <?php echo $task['status'] ? 'task--completed' : ''; ?> <?php echo is_urgency_task( $task['dt_deadline'] ) ? 'task--important' : ''; ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                            <span class="checkbox__text"><?php echo htmlspecialchars( $task['name'] ); ?></span>
+                            <span class="checkbox__text"><?php echo htmlspecialchars( $task['title'] ); ?></span>
                         </label>
                     </td>
-                    <td class="task__date"><?php echo htmlspecialchars( $task['deadline'] ); ?></td>
+                    <td class="task__date"><?php echo htmlspecialchars( $task['dt_deadline'] ); ?></td>
 
                     <td class="task__controls">
                     </td>
