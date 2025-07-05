@@ -1,34 +1,56 @@
 <?php
 
 // запрос для получения списка проектов у текущего пользователя.
-function get_user_projects( $con, $user_id ) {
-  $sql = "SELECT title FROM projects WHERE user_id = '$user_id'";
-  $result = mysqli_query( $con, $sql );
-  $projects = [];
+/**
+ * @param $link
+ * @param $user_id
+ * @return array
+ */
+function get_user_projects($link, $user_id)
+{
+    $sql = 'SELECT title FROM projects WHERE user_id = ?';
 
-  if ( !$result ) {
-    $error = mysqli_error( $con );
-    print( "Ошибка MySQL: " . $error );
-  } else {
-    $projects = mysqli_fetch_all( $result, MYSQLI_ASSOC );
-    $projects = array_column( $projects, 'title' );
-  }
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, 'i', $user_id);
+    mysqli_stmt_execute($stmt);
 
-  return $projects;
+    $result = mysqli_stmt_get_result( $stmt );
+    $projects = [];
+
+    if (!$result) {
+        $error = mysqli_error($link);
+        print("Ошибка MySQL: " . $error);
+    } else {
+        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $projects = array_column($projects, 'title');
+    }
+
+    return $projects;
 }
 
 //  запрос для получения списка из всех задач у текущего пользователя
-function get_user_tasks( $con, $user_id ) {
-  $sql = "SELECT t.title, t.file_path, t.dt_deadline, t.status, p.title as project  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = '$user_id'";
-  $result = mysqli_query( $con, $sql );
-  $tasks = [];
+/**
+ * @param $link
+ * @param $user_id
+ * @return array
+ */
+function get_user_tasks($link, $user_id)
+{
+    $sql = 'SELECT t.title, t.file_path, t.dt_deadline, t.status, p.title as project  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?';
 
-  if ( !$result ) {
-    $error = mysqli_error( $con );
-    print( "Ошибка MySQL: " . $error );
-  } else {
-    $tasks = mysqli_fetch_all( $result, MYSQLI_ASSOC );
-  }
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, 'i', $user_id);
+    mysqli_stmt_execute( $stmt );
 
-  return $tasks;
+    $result = mysqli_stmt_get_result( $stmt );
+    $tasks = [];
+
+    if (!$result) {
+        $error = mysqli_error($link);
+        print("Ошибка MySQL: " . $error);
+    } else {
+        $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $tasks;
 }

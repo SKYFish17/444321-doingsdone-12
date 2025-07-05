@@ -4,19 +4,19 @@ require_once( 'functions.php' );
 require_once( 'init.php' );
 require_once( 'models.php' );
 
-// $con получаем из init.php
+// $link получаем из init.php
 $projects = [];
 $tasks = [];
 
 // temporary
 $user_id = 1;
 
-if ( $con == false ) {
+if ( $link == false ) {
   print( "Ошибка подключения: " . mysqli_connect_error() );
 }
 else {
-  $projects = get_user_projects( $con, $user_id );
-  $tasks = get_user_tasks( $con, $user_id );
+  $projects = get_user_projects( $link, $user_id );
+  $tasks = get_user_tasks( $link, $user_id );
 }
 
 $content = include_template(

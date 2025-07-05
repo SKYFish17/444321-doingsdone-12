@@ -1,6 +1,11 @@
 <?php
 // Считает кол-во задач в проекте
-function count_project_number_of_tasks( $tasks, $project ) {
+/**
+ * @param $tasks
+ * @param $project
+ * @return int
+ */
+function count_project_number_of_tasks($tasks, $project ) {
     $count_of_tasks = 0;
 
     foreach( $tasks as $task ) {
@@ -13,7 +18,11 @@ function count_project_number_of_tasks( $tasks, $project ) {
 }
 
 // Определяет, срочная ли задача
-function is_urgency_task( $deadline ) {
+/**
+ * @param $deadline
+ * @return bool|void
+ */
+function is_urgency_task($deadline ) {
     if ( $deadline === 'null' ) {
         return;
     }
@@ -33,6 +42,9 @@ function is_urgency_task( $deadline ) {
 }
 
 // показывать или нет выполненные задачи
+/**
+ * @return int
+ */
 function is_show_complete_task() {
     return rand(0, 1);
 }

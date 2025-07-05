@@ -1,3 +1,5 @@
 <?php
-$con = mysqli_connect( 'localhost', 'root', 'root', 'doingsdone' );
-mysqli_set_charset( $con, "utf8" );
+$db = require_once 'db.php';
+
+$link = mysqli_connect( $db['host'], $db['user'], $db['password'], $db['database'] );
+mysqli_set_charset( $link, "utf8" );
