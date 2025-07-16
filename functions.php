@@ -9,7 +9,7 @@ function count_project_number_of_tasks($tasks, $project ) {
     $count_of_tasks = 0;
 
     foreach( $tasks as $task ) {
-        if ( $task['project'] === $project ) {
+        if ( $task['project'] === $project['title'] ) {
             $count_of_tasks++;
         }
     }
