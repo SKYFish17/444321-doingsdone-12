@@ -4,9 +4,9 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <?php foreach( $projects as $project ) : ?>
-                <li class="main-navigation__list-item">
+                <li class="main-navigation__list-item <?php echo $active_project['id'] == $project['id'] ? 'main-navigation__list-item--active' : '' ?>">
                     <a
-                      class="main-navigation__list-item-link <?php echo $active_project['id'] == $project['id'] ? 'main-navigation__list-item--active' : '' ?>"
+                      class="main-navigation__list-item-link"
                       href="/?project_id=<?php echo $project['id'] ?>">
                         <?php echo htmlspecialchars( $project['title'] ); ?>
                     </a>
