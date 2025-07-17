@@ -1,20 +1,20 @@
 <?php
-// Считает кол-во задач в проекте
 /**
+ * Считает кол-во задач в проекте
  * @param $tasks
  * @param $project
  * @return int
  */
-function count_project_number_of_tasks($tasks, $project ) {
-    $count_of_tasks = 0;
+function get_project_number_of_tasks($tasks, $project ) {
+    $number = 0;
 
     foreach( $tasks as $task ) {
         if ( $task['project'] === $project['title'] ) {
-            $count_of_tasks++;
+            $number++;
         }
     }
 
-    return $count_of_tasks;
+    return $number;
 }
 
 // Определяет, срочная ли задача
