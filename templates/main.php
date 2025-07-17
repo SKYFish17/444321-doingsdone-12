@@ -10,7 +10,7 @@
                       href="/?project_id=<?php echo $project['id'] ?>">
                         <?php echo htmlspecialchars( $project['title'] ); ?>
                     </a>
-                    <span class="main-navigation__list-item-count"><?php echo count_project_number_of_tasks( $tasks, $project ); ?></span>
+                    <span class="main-navigation__list-item-count"><?php echo get_project_number_of_tasks( $tasks, $project ); ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -44,7 +44,8 @@
     </div>
 
     <table class="tasks">
-        <?php foreach( $tasks_by_project as $task ) : ?>
+        <?php $tasks = $active_project ? $tasks_by_project : $tasks; ?>
+        <?php foreach( $tasks as $task ) : ?>
             <?php if ( $show_complete_tasks === 0 && $task['status'] ) : continue; ?>
             <?php else : ?>
                 <tr class="tasks__item task <?php echo $task['status'] ? 'task--completed' : ''; ?> <?php echo is_urgency_task( $task['dt_deadline'] ) ? 'task--important' : ''; ?>">
