@@ -48,3 +48,75 @@ function is_urgency_task($deadline ) {
 function is_show_complete_task() {
     return rand(0, 1);
 }
+
+/**
+ * @param $value
+ * @return string|null
+ */
+function validateEmpty($value) {
+    return strlen($value) === 0 ? 'Поле должно быть заполнено' : null;
+}
+
+/**
+ * @param $link
+ * @param $user_id
+ * @param $project_id
+ * @return string|void
+ */
+function validateProject($link, $user_id, $project_id) {
+    if (!get_user_project($link, $user_id, $project_id)) {
+        return 'Проект не найден';
+    }
+}
+
+/**
+ * @param $date
+ * @param string $format
+ * @return string|void
+ */
+function validateDate($date, $format = 'Y-m-d') {
+    if (!empty($date)) {
+        $d = date_create_from_format($format, $date);
+
+        if (!$d || date_format($d, $format) !== $date) {
+            return 'Дата должна быть в формате ГГГГ-ММ-ДД';
+        }
+
+        if ($date < date('Y-m-d')) {
+            return 'Дата должна быть больше или равна текущей';
+        }
+    }
+}
+
+/**
+ * @param $file
+ * @return false|string
+ */
+function saveFile($file){
+    $tmp_name = $file['tmp_name'];
+    $upload_path = __DIR__  . '/uploads';
+    $name = basename($file['name']);
+
+    if (move_uploaded_file($tmp_name, "$upload_path/$name")) {
+        return "/uploads/$name";
+    } else {
+        return false;
+    }
+}
+
+/**
+ * @param $file
+ * @return string|void
+ */
+function validateFile($file) {
+    $file_type = $file['type'];
+    $file_size = $file['size'];
+
+    if ($file_type !== 'image/jpeg') {
+        return 'Допустимый формат файла - jpeg';
+    }
+
+    if ($file_size >= 2*1024*1024) {
+        return 'Максимальный размер файла - 2Мб';
+    }
+}

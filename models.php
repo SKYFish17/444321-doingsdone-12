@@ -62,7 +62,7 @@ function get_user_project($link, $user_id, $project_id) {
  */
 function get_user_tasks($link, $user_id)
 {
-    $sql = 'SELECT t.title, t.file_path, t.dt_deadline, t.status, p.title as project FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?';
+    $sql = 'SELECT t.title, t.file_path, t.dt_deadline, t.status, p.title as project FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? ORDER BY t.id DESC';
 
     $stmt = mysqli_prepare($link, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $user_id);
@@ -90,7 +90,7 @@ function get_user_tasks($link, $user_id)
  */
 function get_user_tasks_by_project($link, $user_id, $project_id = null)
 {
-    $sql = 'SELECT t.title, t.file_path, t.dt_deadline, t.status, p.title as project FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?';
+    $sql = 'SELECT t.title, t.file_path, t.dt_deadline, t.status, p.title as project FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ? ORDER BY t.id DESC';
 
     $stmt = mysqli_prepare($link, $sql);
     mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_id);
@@ -107,4 +107,22 @@ function get_user_tasks_by_project($link, $user_id, $project_id = null)
     }
 
     return $tasks;
+}
+
+function createTask($link, $title, $project_id, $deadline_date = null, $file_path = null, $user_id) {
+    $sql = 'INSERT INTO tasks (title, file_path, dt_add, dt_deadline, status, user_id, project_id) VALUES (?, ?, NOW(), ?, 0, ?, ?)';
+
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, 'sssii', $title, $file_path, $deadline_date, $user_id, $project_id);
+    mysqli_stmt_execute($stmt);
+
+    $error = mysqli_error($link);
+
+    if ($error) {
+        print("Ошибка MySQL: " . $error);
+        return false;
+    } else {
+        return true;
+    }
+
 }

@@ -58,6 +58,11 @@
                     <td class="task__date"><?php echo htmlspecialchars( $task['dt_deadline'] ); ?></td>
 
                     <td class="task__controls">
+                      <?php if ($task['file_path']) : ?>
+                        <a href="<?php echo $task['file_path'] ?>" class="task_download-file" target="_blank">
+                          <img src="/img/download-link.png" width="14" height="16" alt="Загрузить файл">
+                        </a>
+                      <?php endif; ?>
                     </td>
                 </tr>
             <?php endif; ?>
