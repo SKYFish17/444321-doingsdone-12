@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $saved_file_path ?? null,
             $user_id
         )) {
-            header("Location: /", true, 301);
+            header("Location: /index.php", true, 301);
             exit();
         }
     }
