@@ -120,3 +120,7 @@ function validateFile($file) {
         return 'Максимальный размер файла - 2Мб';
     }
 }
+
+function validateEmailExist($link, $email) {
+    return !empty(get_user_by_email($link, $email)) ? 'Данный e-mail уже используется' : null;
+}

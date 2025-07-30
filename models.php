@@ -124,5 +124,50 @@ function createTask($link, $title, $project_id, $deadline_date = null, $file_pat
     } else {
         return true;
     }
+}
 
+function get_user_by_email($link, $email) {
+    $sql = 'SELECT * from users where email = ?';
+
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    mysqli_stmt_execute($stmt);
+
+    $error = mysqli_error($link);
+    $result = mysqli_stmt_get_result($stmt);
+    $user = [];
+
+    if ($error) {
+        print("Ошибка MySQL: " . $error);
+        return false;
+    } else {
+        $user = mysqli_fetch_assoc($result);
+    }
+
+    return $user;
+}
+
+/**
+ * @param $link
+ * @param $name
+ * @param $email
+ * @param $password
+ * @return bool
+ */
+function createUser($link, $name, $email, $password) {
+    $sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, 'sss', $name, $email, $password_hash);
+    mysqli_stmt_execute($stmt);
+
+    $error = mysqli_error($link);
+
+    if ($error) {
+        print("Ошибка MySQL: " . $error);
+        return false;
+    } else {
+        return true;
+    }
 }
