@@ -19,7 +19,6 @@ if ($link == false) {
 // Валидация формы
 $errors = [];
 $args = [
-    'name' => FILTER_UNSAFE_RAW,
     'email' => FILTER_UNSAFE_RAW,
     'password' => FILTER_UNSAFE_RAW,
 ];
@@ -35,30 +34,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($key === 'email') {
             if (!filter_var($field_value, FILTER_VALIDATE_EMAIL)) {
                 $errors[$key] = 'E-mail введён некорректно';
-            } else {
-                $errors[$key] = validateEmailExist($link, $field_value);
             }
         }
     }
 
     $errors = array_filter($errors, function ($elem) { return !empty($elem); });
 
-    if (empty($errors) && !empty($form_fields_value)) {
-        if (createUser(
-            $link,
-            $form_fields_value['name'],
-            $form_fields_value['email'],
-            $form_fields_value['password']
-        )
-        ) {
+    if (empty($errors)) {
+        $user = get_user_by_email($link, $form_fields_value['email']);
+
+        if ($user && password_verify($form_fields_value['password'], $user['password'])) {
+            setAuthUserSessionData($user);
             header("Location: /index.php", true, 301);
             exit();
+        } else {
+            $errors['email'] = 'Логин и/или пароль введен неверно';
+            $errors['password'] = 'Логин и/или пароль введен неверно';
         }
     }
 }
 
 $content = include_template(
-    'register.php',
+    'auth.php',
     array(
         'errors' => $errors,
         'form_fields_value' => $form_fields_value,

@@ -121,6 +121,56 @@ function validateFile($file) {
     }
 }
 
+/**
+ * @param $link
+ * @param $email
+ * @return string|null
+ */
 function validateEmailExist($link, $email) {
     return !empty(get_user_by_email($link, $email)) ? 'Данный e-mail уже используется' : null;
+}
+
+/**
+ * @param $user
+ */
+function setAuthUserSessionData($user) {
+    session_start();
+
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['name'] = $user['name'];
+    $_SESSION['email'] = $user['email'];
+}
+
+/**
+ * @return array
+ */
+function getAuthUserSessionData(): array
+{
+    return [
+        'id' => $_SESSION['user_id'],
+        'name' => $_SESSION['name'],
+        'email' => $_SESSION['email'],
+    ];
+}
+
+/**
+ * @return bool
+ */
+function isAuth(): bool
+{
+    return isset($_SESSION['user_id']);
+}
+
+function renderGuestPage() {
+    $page = include_template(
+        'layout.php',
+        array(
+            'site_title' => 'Дела в порядке',
+            'user' => [],
+            'site_content' => include_template('guest.php')
+        )
+    );
+
+    print($page);
+    exit();
 }

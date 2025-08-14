@@ -34,7 +34,8 @@ function get_user_projects($link, $user_id)
  * @param $project_id
  * @return array
  */
-function get_user_project($link, $user_id, $project_id) {
+function get_user_project($link, $user_id, $project_id)
+{
     $sql = 'SELECT id, title FROM projects WHERE user_id = ? AND id = ?';
 
     $stmt = mysqli_prepare($link, $sql);
@@ -109,7 +110,8 @@ function get_user_tasks_by_project($link, $user_id, $project_id = null)
     return $tasks;
 }
 
-function createTask($link, $title, $project_id, $deadline_date = null, $file_path = null, $user_id) {
+function createTask($link, $title, $project_id, $deadline_date = null, $file_path = null, $user_id)
+{
     $sql = 'INSERT INTO tasks (title, file_path, dt_add, dt_deadline, status, user_id, project_id) VALUES (?, ?, NOW(), ?, 0, ?, ?)';
 
     $stmt = mysqli_prepare($link, $sql);
@@ -126,7 +128,8 @@ function createTask($link, $title, $project_id, $deadline_date = null, $file_pat
     }
 }
 
-function get_user_by_email($link, $email) {
+function get_user_by_email($link, $email)
+{
     $sql = 'SELECT * from users where email = ?';
 
     $stmt = mysqli_prepare($link, $sql);
@@ -154,7 +157,8 @@ function get_user_by_email($link, $email) {
  * @param $password
  * @return bool
  */
-function createUser($link, $name, $email, $password) {
+function createUser($link, $name, $email, $password)
+{
     $sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 

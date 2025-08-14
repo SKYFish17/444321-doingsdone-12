@@ -4,15 +4,21 @@ require_once('functions.php');
 require_once('init.php');
 require_once('models.php');
 
-// temporary
-$user_id = 1;
+session_start();
+
+$user = [];
+if (isAuth()) {
+    $user = getAuthUserSessionData();
+} else {
+    renderGuestPage();
+}
 
 /** @var mysqli $link */
 if ($link == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-    $projects = get_user_projects($link, $user_id);
-    $tasks = get_user_tasks($link, $user_id);
+    $projects = get_user_projects($link, $user['id']);
+    $tasks = get_user_tasks($link, $user['id']);
 }
 
 // Валидация формы
@@ -29,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($key === 'name') {
             $errors[$key] = validateEmpty($field_value);
         } elseif ($key === 'project') {
-            $errors[$key] = validateProject($link, $user_id, $field_value);
+            $errors[$key] = validateProject($link, $user['id'], $field_value);
         } elseif ($key === 'date') {
             $errors[$key] = validateDate($field_value);
         }
@@ -59,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $form_fields_value['project'],
             !empty($form_fields_value['date']) ? $form_fields_value['date'] : null,
             $saved_file_path ?? null,
-            $user_id
+            $user['id']
         )) {
             header("Location: /index.php", true, 301);
             exit();
@@ -81,7 +87,7 @@ $page = include_template(
     'layout.php',
     array(
         'site_title' => 'Дела в порядке',
-        'user_name' => 'Константин',
+        'user' => $user,
         'site_content' => $content
     )
 );
