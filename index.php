@@ -4,8 +4,6 @@ require_once('functions.php');
 require_once('init.php');
 require_once('models.php');
 
-session_start();
-
 $user = [];
 if (isAuth()) {
     $user = getAuthUserSessionData();

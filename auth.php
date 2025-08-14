@@ -4,8 +4,6 @@ require_once('functions.php');
 require_once('init.php');
 require_once('models.php');
 
-session_start();
-
 if (isAuth()) {
     header("Location: /index.php", true, 301);
     exit();
