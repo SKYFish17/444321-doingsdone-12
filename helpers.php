@@ -3,9 +3,9 @@
  * Проверяет переданную дату на соответствие формату 'ГГГГ-ММ-ДД'
  *
  * Примеры использования:
- * is_date_valid('2019-01-01'); // true
+ * is_date_valid('2025-01-01'); // true
  * is_date_valid('2016-02-29'); // true
- * is_date_valid('2019-04-31'); // false
+ * is_date_valid('2025-04-31'); // false
  * is_date_valid('10.10.2010'); // false
  * is_date_valid('10/10/2010'); // false
  *
