@@ -175,3 +175,30 @@ function createUser($link, $name, $email, $password)
         return true;
     }
 }
+
+/**
+ * Осуществляет fulltext-поиск задач пользователя
+ * @param $link
+ * @param $user_id
+ * @param $search_query
+ * @return array
+ */
+function get_user_tasks_by_search($link, $user_id, $search_query) {
+    $sql = 'SELECT t.title, t.file_path, t.dt_deadline, t.status, p.title as project FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?) ORDER BY t.id DESC';
+
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $search_query);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $tasks = [];
+
+    if (!$result) {
+        $error = mysqli_error($link);
+        print("Ошибка MySQL: " . $error);
+    } else {
+        $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $tasks;
+}
