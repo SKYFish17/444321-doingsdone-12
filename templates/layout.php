@@ -6,7 +6,7 @@
   <title><?php echo $site_title; ?></title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/flatpickr.min.css">
+  <link rel="stylesheet" href=" css/flatpickr.min.css">
 </head>
 
 <body class="<?php echo empty($user) ? 'body-background' : '' ?>">

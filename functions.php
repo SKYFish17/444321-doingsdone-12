@@ -1,24 +1,6 @@
 <?php
 /**
- * Считает кол-во задач в проекте
- * @param $tasks
- * @param $project
- * @return int
- */
-function get_project_number_of_tasks($tasks, $project ) {
-    $number = 0;
-
-    foreach( $tasks as $task ) {
-        if ( $task['project'] === $project['title'] ) {
-            $number++;
-        }
-    }
-
-    return $number;
-}
-
-// Определяет, срочная ли задача
-/**
+ * Определяет, срочная ли задача
  * @param $deadline
  * @return bool|void
  */
@@ -41,14 +23,6 @@ function is_urgency_task($deadline ) {
     }
 }
 
-// показывать или нет выполненные задачи
-/**
- * @return int
- */
-function is_show_complete_task() {
-    return rand(0, 1);
-}
-
 /**
  * @param $value
  * @return string|null
@@ -66,6 +40,19 @@ function validateEmpty($value) {
 function validateProject($link, $user_id, $project_id) {
     if (!get_user_project($link, $user_id, $project_id)) {
         return 'Проект не найден';
+    }
+}
+
+/**
+ * @param $link
+ * @param $user_id
+ * @param $project_name
+ * @return string|void
+ */
+function validateProjectName($link, $user_id, $project_name)
+{
+    if (get_user_project_by_name($link, $user_id, $project_name)) {
+        return 'Проект с таким названием уже существует';
     }
 }
 

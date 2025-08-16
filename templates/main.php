@@ -12,14 +12,14 @@
                 <?php echo htmlspecialchars($project['title']); ?>
             </a>
             <span
-              class="main-navigation__list-item-count"><?php echo get_project_number_of_tasks($tasks, $project); ?></span>
+              class="main-navigation__list-item-count"><?php echo $project['tasks_num']; ?></span>
           </li>
         <?php endforeach; ?>
     </ul>
   </nav>
 
   <a class="button button--transparent button--plus content__side-button"
-     href="pages/form-project.html" target="project_add">Добавить проект</a>
+     href="/add-project.php">Добавить проект</a>
 </section>
 
 <main class="content__main">
@@ -38,15 +38,17 @@
 
   <div class="tasks-controls">
     <nav class="tasks-switch">
-      <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-      <a href="/" class="tasks-switch__item">Повестка дня</a>
-      <a href="/" class="tasks-switch__item">Завтра</a>
-      <a href="/" class="tasks-switch__item">Просроченные</a>
+      <a href="/?date=all" class="tasks-switch__item <?php echo isset($_GET['date']) && $_GET['date'] === 'all' || !isset($_GET['date']) ? 'tasks-switch__item--active' : ''; ?>">Все задачи</a>
+      <a href="/?date=tod" class="tasks-switch__item <?php echo isset($_GET['date']) && $_GET['date'] === 'tod' ? 'tasks-switch__item--active' : ''; ?>">Повестка дня</a>
+      <a href="/?date=tom" class="tasks-switch__item <?php echo isset($_GET['date']) && $_GET['date'] === 'tom' ? 'tasks-switch__item--active' : ''; ?>">Завтра</a>
+      <a href="/?date=expired" class="tasks-switch__item <?php echo isset($_GET['date']) && $_GET['date']  === 'expired' ? 'tasks-switch__item--active' : '' ;?>">Просроченные</a>
     </nav>
 
     <label class="checkbox">
       <input class="checkbox__input visually-hidden show_completed"
-             type="checkbox" <?php echo ($show_complete_tasks === 1) ? 'checked' : ''; ?>>
+             type="checkbox"
+             <?php echo ($show_complete_tasks) ? 'checked' : ''; ?>
+      >
       <span class="checkbox__text">Показывать выполненные</span>
     </label>
   </div>
@@ -66,13 +68,18 @@
         <tr>
       <?php else : ?>
           <?php foreach ($tasks as $task) : ?>
-              <?php if ($show_complete_tasks === 0 && $task['status']) : continue; ?>
+              <?php if ($show_complete_tasks == 0 && $task['status']) : continue; ?>
               <?php else : ?>
               <tr
-                class="tasks__item task <?php echo $task['status'] ? 'task--completed' : ''; ?> <?php echo is_urgency_task($task['dt_deadline']) ? 'task--important' : ''; ?>">
+                class="tasks__item task <?php echo $task['status'] ? 'task--completed' : ''; ?> <?php echo is_urgency_task($task['dt_deadline']) ? 'task--important' : ''; ?>" data-task-id>
                 <td class="task__select">
                   <label class="checkbox task__checkbox">
-                    <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                    <input
+                      class="checkbox__input visually-hidden"
+                      type="checkbox"
+                      value="<?php echo $task['id'] ?>"
+                      <?php echo $task['status'] ? 'checked' : ''; ?>
+                    >
                     <span class="checkbox__text"><?php echo htmlspecialchars($task['title']); ?></span>
                   </label>
                 </td>

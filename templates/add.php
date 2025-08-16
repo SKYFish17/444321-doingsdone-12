@@ -10,14 +10,14 @@
               href="/?project_id=<?php echo $project['id'] ?>">
                 <?php echo htmlspecialchars( $project['title'] ); ?>
             </a>
-            <span class="main-navigation__list-item-count"><?php echo get_project_number_of_tasks( $tasks, $project ); ?></span>
+            <span class="main-navigation__list-item-count"><?php echo $project['tasks_num']; ?></span>
           </li>
         <?php endforeach; ?>
     </ul>
   </nav>
 
   <a class="button button--transparent button--plus content__side-button"
-     href="pages/form-project.html" target="project_add">Добавить проект</a>
+     href="/add-project.php" target="project_add">Добавить проект</a>
 </section>
 
 <main class="content__main">
