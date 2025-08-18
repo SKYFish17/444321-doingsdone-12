@@ -4,20 +4,21 @@
  * @param $deadline
  * @return bool|void
  */
-function is_urgency_task($deadline ) {
-    if ( $deadline === 'null' ) {
+function is_urgency_task($deadline)
+{
+    if ($deadline === 'null') {
         return;
     }
 
-    $cur_date = date_create( "now" );
-    $deadline_date = date_create( $deadline );
+    $cur_date = date_create("now");
+    $deadline_date = date_create($deadline);
 
-    $diff = date_diff( $cur_date, $deadline_date );
-    $days_count = date_interval_format( $diff, "%r%d" );
-    $hours_count = date_interval_format( $diff, "%r%h" );
+    $diff = date_diff($cur_date, $deadline_date);
+    $days_count = date_interval_format($diff, "%r%d");
+    $hours_count = date_interval_format($diff, "%r%h");
 
-    if ( $days_count <= 0 && $hours_count <= 24 ) {
-      return true;
+    if ($days_count <= 0 && $hours_count <= 24) {
+        return true;
     } else {
         return false;
     }
@@ -27,7 +28,8 @@ function is_urgency_task($deadline ) {
  * @param $value
  * @return string|null
  */
-function validateEmpty($value) {
+function validateEmpty($value)
+{
     return strlen($value) === 0 ? 'Поле должно быть заполнено' : null;
 }
 
@@ -37,7 +39,8 @@ function validateEmpty($value) {
  * @param $project_id
  * @return string|void
  */
-function validateProject($link, $user_id, $project_id) {
+function validateProject($link, $user_id, $project_id)
+{
     if (!get_user_project($link, $user_id, $project_id)) {
         return 'Проект не найден';
     }
@@ -61,7 +64,8 @@ function validateProjectName($link, $user_id, $project_name)
  * @param string $format
  * @return string|void
  */
-function validateDate($date, $format = 'Y-m-d') {
+function validateDate($date, $format = 'Y-m-d')
+{
     if (!empty($date)) {
         $d = date_create_from_format($format, $date);
 
@@ -79,9 +83,10 @@ function validateDate($date, $format = 'Y-m-d') {
  * @param $file
  * @return false|string
  */
-function saveFile($file){
+function saveFile($file)
+{
     $tmp_name = $file['tmp_name'];
-    $upload_path = __DIR__  . '/uploads';
+    $upload_path = __DIR__ . '/uploads';
     $name = basename($file['name']);
 
     if (move_uploaded_file($tmp_name, "$upload_path/$name")) {
@@ -95,7 +100,8 @@ function saveFile($file){
  * @param $file
  * @return string|void
  */
-function validateFile($file) {
+function validateFile($file)
+{
     $file_type = $file['type'];
     $file_size = $file['size'];
 
@@ -103,7 +109,7 @@ function validateFile($file) {
         return 'Допустимый формат файла - jpeg';
     }
 
-    if ($file_size >= 2*1024*1024) {
+    if ($file_size >= 2 * 1024 * 1024) {
         return 'Максимальный размер файла - 2Мб';
     }
 }
@@ -113,14 +119,16 @@ function validateFile($file) {
  * @param $email
  * @return string|null
  */
-function validateEmailExist($link, $email) {
+function validateEmailExist($link, $email)
+{
     return !empty(get_user_by_email($link, $email)) ? 'Данный e-mail уже используется' : null;
 }
 
 /**
  * @param $user
  */
-function setAuthUserSessionData($user) {
+function setAuthUserSessionData($user)
+{
     session_start();
 
     $_SESSION['user_id'] = $user['id'];
@@ -148,7 +156,8 @@ function isAuth(): bool
     return isset($_SESSION['user_id']);
 }
 
-function renderGuestPage() {
+function renderGuestPage()
+{
     $page = include_template(
         'layout.php',
         array(

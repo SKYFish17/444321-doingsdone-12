@@ -48,9 +48,9 @@
       <p>Веб-приложение для удобного ведения списка дел.</p>
     </div>
 
-    <?php if (!empty($user)) : ?>
-      <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
-    <?php endif; ?>
+      <?php if (!empty($user)) : ?>
+        <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
+      <?php endif; ?>
 
     <div class="main-footer__social social">
       <span class="visually-hidden">Мы в соцсетях:</span>

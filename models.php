@@ -253,7 +253,8 @@ function createUser($link, $name, $email, $password)
  * @param $search_query
  * @return array
  */
-function get_user_tasks_by_search($link, $user_id, $search_query) {
+function get_user_tasks_by_search($link, $user_id, $search_query)
+{
     $sql = 'SELECT t.id, t.title, t.file_path, t.dt_deadline, t.status, p.title as project FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?) ORDER BY t.id DESC';
 
     $stmt = mysqli_prepare($link, $sql);
@@ -279,7 +280,8 @@ function get_user_tasks_by_search($link, $user_id, $search_query) {
  * @param $project_name
  * @return bool
  */
-function createProject($link, $user_id, $project_name) {
+function createProject($link, $user_id, $project_name)
+{
     $sql = 'INSERT INTO projects (title, user_id) VALUES (?, ?)';
 
     $stmt = mysqli_prepare($link, $sql);

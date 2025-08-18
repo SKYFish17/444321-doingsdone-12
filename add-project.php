@@ -40,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $errors = array_filter($errors, function ($elem) { return !empty($elem); });
+    $errors = array_filter($errors, function ($elem) {
+        return !empty($elem);
+    });
 
     if (empty($errors) && !empty($form_fields_value)) {
         if (createProject(

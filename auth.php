@@ -36,7 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $errors = array_filter($errors, function ($elem) { return !empty($elem); });
+    $errors = array_filter($errors, function ($elem) {
+        return !empty($elem);
+    });
 
     if (empty($errors)) {
         $user = get_user_by_email($link, $form_fields_value['email']);

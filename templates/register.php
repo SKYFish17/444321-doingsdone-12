@@ -20,9 +20,9 @@
         placeholder="Введите e-mail"
       >
 
-      <?php if ($errors['email']) : ?>
-        <p class="form__message"><?php echo $errors['email'] ?></p>
-      <?php endif; ?>
+        <?php if ($errors['email']) : ?>
+          <p class="form__message"><?php echo $errors['email'] ?></p>
+        <?php endif; ?>
     </div>
 
     <div class="form__row">
@@ -37,9 +37,9 @@
         placeholder="Введите пароль"
       >
 
-      <?php if ($errors['password']) : ?>
-        <p class="form__message"><?php echo $errors['password'] ?></p>
-      <?php endif; ?>
+        <?php if ($errors['password']) : ?>
+          <p class="form__message"><?php echo $errors['password'] ?></p>
+        <?php endif; ?>
     </div>
 
     <div class="form__row">
@@ -54,15 +54,15 @@
         placeholder="Введите имя"
       >
 
-      <?php if ($errors['name']) : ?>
-        <p class="form__message"><?php echo $errors['name'] ?></p>
-      <?php endif; ?>
+        <?php if ($errors['name']) : ?>
+          <p class="form__message"><?php echo $errors['name'] ?></p>
+        <?php endif; ?>
     </div>
 
     <div class="form__row form__row--controls">
-      <?php if ($errors) : ?>
-        <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
-      <?php endif; ?>
+        <?php if ($errors) : ?>
+          <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
+        <?php endif; ?>
 
       <input class="button" type="submit" name="" value="Зарегистрироваться">
     </div>
