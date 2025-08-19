@@ -15,7 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 $tasks = [];
 
 // Конфигурация траспорта
-$dsn = 'smtp://Buran-devs:qlvghslztlhioght@smtp.yandex.ru:465?encryption=tls&auth_mode=login';
+// Тестовая конфигурация debugmail.io
+$login = '7ab9d38c-8b91-4d16-b5bb-48125ee89389';
+$pass = 'b0e07399-5df5-44bc-8990-eb3d2b060b71';
+$host = 'app.debugmail.io';
+$port = 25;
+$encryption = 'tls';
+$auth_mode = 'auth_mode';
+
+$dsn = "smtp://$login:$pass@$host:$port?encryption=$encryption&auth_mode=";
 $transport = Transport::fromDsn($dsn);
 
 /** @var mysqli $link */
@@ -44,7 +52,7 @@ if ($link == false) {
         // Формирование сообщения
         $message = new Email();
         $message->to($user['email']);
-        $message->from("mail@doingsdone.dev");
+        $message->from("info@mycompany.com");
         $message->subject("Уведомление от сервиса «Дела в порядке»");
 
         if (count($user['tasks']) < 2) {
