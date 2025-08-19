@@ -14,5 +14,8 @@
       "email": "d.egorov@quality-lab.ru"
     }
   ],
-  "require": {}
+  "require": {
+    "symfony/mailer": "^5.4",
+    "ext-mysqli": "*"
+  }
 }

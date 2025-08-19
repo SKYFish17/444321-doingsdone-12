@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Получает список проектов у текущего пользователя.
  * @param $link
@@ -111,6 +110,7 @@ function get_user_tasks($link, $user_id)
 }
 
 /**
+ * Получает список задач пользователя согласно переданному фильтру даты
  * @param $link
  * @param $user_id
  * @param $date_filter
@@ -151,7 +151,6 @@ function get_user_tasks_by_date_filter($link, $user_id, $date_filter)
     return $tasks;
 }
 
-
 /**
  * Получает список задач пользователя по проекту
  * @param $link
@@ -180,6 +179,16 @@ function get_user_tasks_by_project($link, $user_id, $project_id = null)
     return $tasks;
 }
 
+/**
+ * Создает новую задачу
+ * @param $link
+ * @param $title
+ * @param $project_id
+ * @param null $deadline_date
+ * @param null $file_path
+ * @param $user_id
+ * @return bool
+ */
 function createTask($link, $title, $project_id, $deadline_date = null, $file_path = null, $user_id)
 {
     $sql = 'INSERT INTO tasks (title, file_path, dt_add, dt_deadline, status, user_id, project_id) VALUES (?, ?, NOW(), ?, 0, ?, ?)';
@@ -198,6 +207,12 @@ function createTask($link, $title, $project_id, $deadline_date = null, $file_pat
     }
 }
 
+/**
+ * Получает пользователя по email
+ * @param $link
+ * @param $email
+ * @return array|false|string[]|null
+ */
 function get_user_by_email($link, $email)
 {
     $sql = 'SELECT * from users where email = ?';
@@ -221,6 +236,7 @@ function get_user_by_email($link, $email)
 }
 
 /**
+ * Создает нового пользователя
  * @param $link
  * @param $name
  * @param $email
@@ -275,6 +291,7 @@ function get_user_tasks_by_search($link, $user_id, $search_query)
 }
 
 /**
+ * Создает новый проект
  * @param $link
  * @param $user_id
  * @param $project_name
@@ -299,6 +316,7 @@ function createProject($link, $user_id, $project_name)
 }
 
 /**
+ * Изменяет статус задачи
  * @param $link
  * @param $task_id
  * @param $status
@@ -320,5 +338,29 @@ function changeTaskStatus($link, $task_id, $status, $user_id): bool
         return false;
     } else {
         return true;
+    }
+}
+
+/**
+ * Получает список задач, необходимых к выполнению в указанную дату
+ * @param $link
+ * @param $date
+ * @return array|false|string[]|null
+ */
+function getUpcomingTasks($link, $date) {
+    $sql = 'SELECT t.title, t.user_id, u.email, u.name FROM tasks as t JOIN users as u ON t.user_id = u.id WHERE dt_deadline = ? AND status != 1';
+
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $date);
+    mysqli_stmt_execute($stmt);
+
+    $error = mysqli_error($link);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($error) {
+        print("Ошибка MySQL: " . $error);
+        return false;
+    } else {
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 }
